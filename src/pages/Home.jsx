@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import appwriteService from "../appwrite/config";
 import {Container, PostCard} from '../components'
+import { NavLink } from 'react-router-dom';
 
 function Home() {
     const [posts, setPosts] = useState([])
@@ -20,8 +21,19 @@ function Home() {
                     <div className="flex flex-wrap">
                         <div className="p-2 w-full">
                             <h1 className="text-2xl font-bold hover:text-gray-500">
-                                Login to read posts
+                                Login to Read Posts
                             </h1>
+                            <br />
+                            <h3 className='w-1/2 relative left-[50%] transform -translate-x-1/2'>
+                                Get Started to write Blog on this Blog application Start Creating a simple blog article. Easy-to-Understand app for smooth use.
+                            </h3>
+                            <br />
+                            <NavLink
+                            to={`/login`}
+                            className="bg-blue-100 rounded-3xl px-4 py-2 shadow-lg hover:text-xl "
+                            >
+                                Login / Sign Up
+                            </NavLink>
                         </div>
                     </div>
                 </Container>
