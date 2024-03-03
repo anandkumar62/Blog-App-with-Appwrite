@@ -1,11 +1,11 @@
 import conf from "../conf/conf.js";
 import { Client, ID, Databases, Storage, Query } from "appwrite";
 
-export class Serive{
+export class Serive {
     client = new Client();
-    Database; 
+    Database;
     bucket;
-    constructor(){
+    constructor() {
         this.client
             .setEndpoint(conf.appwriteUrl)
             .setProject(conf.appwriteProjectId);
@@ -13,7 +13,7 @@ export class Serive{
         this.bucket = new Storage(this.client);
     }
 
-    async createPost({title, slug, content, featuredImage, status, userId}){
+    async createPost({ title, slug, content, featuredImage, status, userId }) {
         try {
             return await this.databases.createDocument(
                 conf.appwriteDatabaseId,
@@ -33,7 +33,7 @@ export class Serive{
         }
     }
 
-    async updatePost(slug, {title, content, featuredImage, status}){
+    async updatePost(slug, { title, content, featuredImage, status }) {
         try {
             return await this.databases.updateDocument(
                 conf.appwriteDatabaseId,
@@ -52,7 +52,7 @@ export class Serive{
         }
     }
 
-    async deletePost(slug){
+    async deletePost(slug) {
         try {
             await this.databases.deleteDocument(
                 conf.appwriteDatabaseId,
@@ -66,7 +66,7 @@ export class Serive{
         }
     }
 
-    async getPost(slug){
+    async getPost(slug) {
         try {
             return await this.databases.getDocument(
                 conf.appwriteDatabaseId,
@@ -78,8 +78,8 @@ export class Serive{
             return false;
         }
     }
-    
-    async getPosts(queries = [Query.equal("status", "active")]){
+
+    async getPosts(queries = [Query.equal("status", "active")]) {
         try {
             return await this.databases.listDocuments(
                 conf.appwriteDatabaseId,
@@ -106,7 +106,7 @@ export class Serive{
             )
         } catch (error) {
             console.log("Appwrite serive :: uploadFile :: error", error);
-                return false;
+            return false;
         }
     }
 
@@ -115,11 +115,11 @@ export class Serive{
             await this.bucket.deleteFile(
                 conf.appwriteBucketId,
                 fileId,
-                )
+            )
             return true;
         } catch (error) {
             console.log("Appwrite serive :: deleteFile :: error", error);
-                return false;
+            return false;
         }
     }
 

@@ -28,13 +28,30 @@ export class AuthService {
         }
     }
 
-    async login ({email, password}) {
+    // async login ({email, password}) {
+    //     try {
+    //         return await this.account.createEmailSession(email, password);
+    //     } catch (error) {
+    //         throw error;
+    //     }
+    // }
+
+    async login({ email, password }) {
         try {
-            return await this.account.createEmailSession(email, password);
+            if (!email || !password) {
+                throw new Error('Email and password are required');
+            }
+    
+            console.log(`Logging in user with email: ${email}`);
+    
+            const session = await this.account.createEmailSession(email, password);
+            return session;
         } catch (error) {
+            console.error('Login failed:', error.message);
             throw error;
         }
     }
+    
 
     async getCurrentUser () {
         try {
