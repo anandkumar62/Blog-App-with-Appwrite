@@ -12,21 +12,42 @@ export class AuthService {
         this.account = new Account(this.client)
     }
 
-    async createAccount ({email, password, name}) {
+    // async createAccount ({email, password, name}) {
+    //     try {
+    //         const userAccount = await this.account.create(ID.unique(), email, password, name);
+
+    //         if(userAccount) {
+    //             //call another method
+    //             return this.login({email, password});
+
+    //         }else {
+    //             return userAccount;
+    //         }
+    //     } catch (error) {
+    //         throw error;
+    //     }
+    // }
+
+    async createAccount({ email, password, name }) {
         try {
+            if (!email || !password || !name) {
+                throw new Error('Email, password, and Name are required');
+            }
+
             const userAccount = await this.account.create(ID.unique(), email, password, name);
 
-            if(userAccount) {
-                //call another method
-                return this.login({email, password});
-
-            }else {
-                return userAccount;
+            if (userAccount) {
+                // Call another method
+                return await this.login({ email, password });
+            } else {
+                throw new Error('Failed to create user account');
             }
         } catch (error) {
+            console.error('Account creation failed:', error.message);
             throw error;
         }
     }
+
 
     // async login ({email, password}) {
     //     try {
@@ -41,9 +62,9 @@ export class AuthService {
             if (!email || !password) {
                 throw new Error('Email and password are required');
             }
-    
+
             console.log(`Logging in user with email: ${email}`);
-    
+
             const session = await this.account.createEmailSession(email, password);
             return session;
         } catch (error) {
@@ -51,9 +72,9 @@ export class AuthService {
             throw error;
         }
     }
-    
 
-    async getCurrentUser () {
+
+    async getCurrentUser() {
         try {
             return await this.account.get();
         } catch (error) {
@@ -63,7 +84,7 @@ export class AuthService {
         return null;
     }
 
-    async logout () {
+    async logout() {
         try {
             await this.account.deleteSessions();
         } catch (error) {
